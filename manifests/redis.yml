@@ -5,14 +5,15 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: chat
-  serviceName: "redis"
+      app: redis
+  serviceName: redis
   replicas: 1
   template:
     metadata:
       labels:
-        app: chat
+        app: redis
     spec:
+      dnsPolicy: ClusterFirst
       terminationGracePeriodSeconds: 10
       containers:
       - name: redis

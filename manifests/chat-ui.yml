@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chat-ui
+  labels:
+    app: chat-ui
+spec:
+  selector:
+    matchLabels:
+      app: chat-ui
+      tier: web
+  template:
+    metadata:
+      labels:
+        app: chat-ui
+        tier: web
+    spec:
+      containers:
+      - name: k8sdemo-chat-ui
+        image: gcr.io/kochava-testing/k8sdemo-chat-ui:latest
+        command: ["nginx-debug"]
+        args: ["-g", "daemon off;"]
+        ports:
+        - containerPort: 80
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 1500
+          timeoutSeconds: 1

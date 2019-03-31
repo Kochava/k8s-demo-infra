@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chat-server
+  labels:
+    app: chat-server
+spec:
+  selector:
+    matchLabels:
+      app: chat-server
+      tier: api
+  template:
+    metadata:
+      labels:
+        app: chat-server
+        tier: api
+    spec:
+      containers:
+      - name: k8sdemo-chat-server
+        image: gcr.io/kochava-testing/k8sdemo-chat-server:latest
+        command:
+          - "/usr/local/bin/chat-server"
+          - "-server-addr"
+          - "0.0.0.0:8080"
+          - "-server-mode"
+          - "ws"
+          - "-health-addr"
+          - "0.0.0.0:8081"
+          - "-health-path"
+          - "/healthz"
+          - "-json-validation-schema-path"
+          - "file:///etc/chat/message-schema.json"
+        ports:
+        - containerPort: 8080
+        livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 600
+            timeoutSeconds: 1
