@@ -36,6 +36,3 @@ Grab your credentials for the demo cluster
 ```
 gcloud container clusters get-credentials k8s-demo-cluster --region us-central1
 ```
-
-## Demo Instructions
-
